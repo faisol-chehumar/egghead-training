@@ -17,13 +17,8 @@
     
     // Simple create react component
     const Message = ({msg='No message'}) => <div>{msg}</div>
-
-    const element = (
-      <div>
-        <Message msg="Hello world" />
-        <Message />
-      </div>
-    )
+    const time = new Date().toLocaleTimeString()
+    const element = <div>It is {time}</div>
 
     ReactDOM.render(element, rootElement)
   </script>
