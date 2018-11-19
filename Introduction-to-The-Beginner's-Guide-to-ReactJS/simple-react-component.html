@@ -14,13 +14,19 @@
   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
   <script type="text/babel">
     const rootElement = document.getElementById('root')
-    
-    // Simple create react component
-    const Message = ({msg='No message'}) => <div>{msg}</div>
-    const time = new Date().toLocaleTimeString()
-    const element = <div>It is {time}</div>
 
-    ReactDOM.render(element, rootElement)
+    const tick = () => {
+      // Simple create react component
+      const Message = ({msg='No message'}) => <div>{msg}</div>
+      const time = new Date().toLocaleTimeString()
+      const element = `<div>It is <input value="${time}" /><input value="${time}"</div>`
+      rootElement.innerHTML = element
+    }
+
+    setInterval(() => {
+      tick()
+    }, 1000)
+
   </script>
 </body>
 </html>
