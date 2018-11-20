@@ -19,13 +19,39 @@
       // Simple create react component
       const Message = ({msg='No message'}) => <div>{msg}</div>
       const time = new Date().toLocaleTimeString()
-      const element = `<div>It is <input value="${time}" /><input value="${time}"</div>`
-      rootElement.innerHTML = element
+      
+      const Box = ({
+        style,
+        size,
+        className='',
+        ...rest
+      }) => {
+        const sizeClassName = size ? `box--${size}` : ''
+        return (
+          <div 
+            className={`box ${className} ${sizeClassName}`.trim()}
+            style={{paddingLeft: 20, ...style}}
+            {...rest}
+          />
+        )
+      }
+
+      const element = (
+        <div>
+          <Box
+            className="hilight"
+            size="small"
+            style={{backgroundColor: 'lightblue'}}
+          >
+            small box
+          </Box>  
+        </div>
+      )
+
+      ReactDOM.render(element, rootElement)
     }
 
-    setInterval(() => {
-      tick()
-    }, 1000)
+    tick()
 
   </script>
 </body>
