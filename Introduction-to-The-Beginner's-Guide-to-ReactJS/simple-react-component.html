@@ -14,44 +14,36 @@
   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
   <script type="text/babel">
     const rootElement = document.getElementById('root')
+    
+    // Simple create react component
+    const state = {eventCount: 0, username: ''}
+    const App = () => (
+      <div>
+        <h1>Hello, {state.username}</h1>
+        <input
+          type="text"
+          placeholder="Please Enter Your Username"
+          onChange={e => setState({username: e.target.value})}
+        /> 
+        <p>Count number: {state.eventCount}</p>
+        <button
+          onClick={() => { setState({eventCount: state.eventCount + 1}) }}
+        >
+          ⚛️ Increase Count!
+        </button>
+      </div>
+    )
 
-    const tick = () => {
-      // Simple create react component
-      const Message = ({msg='No message'}) => <div>{msg}</div>
-      const time = new Date().toLocaleTimeString()
-      
-      const Box = ({
-        style,
-        size,
-        className='',
-        ...rest
-      }) => {
-        const sizeClassName = size ? `box--${size}` : ''
-        return (
-          <div 
-            className={`box ${className} ${sizeClassName}`.trim()}
-            style={{paddingLeft: 20, ...style}}
-            {...rest}
-          />
-        )
-      }
-
-      const element = (
-        <div>
-          <Box
-            className="hilight"
-            size="small"
-            style={{backgroundColor: 'lightblue'}}
-          >
-            small box
-          </Box>  
-        </div>
-      )
-
-      ReactDOM.render(element, rootElement)
+    const renderApp = () => {
+      ReactDOM.render(<App />, rootElement)
     }
 
-    tick()
+    const setState = newState => {
+      Object.assign(state, newState)
+      renderApp()
+    }
+
+    renderApp()
 
   </script>
 </body>
