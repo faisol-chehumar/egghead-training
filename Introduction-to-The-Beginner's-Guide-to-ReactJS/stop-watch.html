@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Beginner's Guide to React</title>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- <script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@16.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  <script type="text/babel">
+    
+    const StopWatch = ({lapse, running, startHandler, clearHandler}) => {
+      const buttonStyles = {
+        border: '1px solid #ccc',
+        backgroundColor: '#fff',
+        fontSize: '2em',
+        padding: 15,
+        margin: 5,
+        width: 200 
+      }
+      return (
+        <div style={{textAlign: 'center'}}>
+          <label
+            style={{
+              fontSize: '5em',
+              display: 'block'
+            }}
+          >
+            {lapse} ms
+          </label>
+          <button
+            style={buttonStyles}
+            onClick={startHandler}
+          >
+            { running ? 'Stop' : 'Start' }
+          </button>
+          <button
+            style={buttonStyles}
+            onClick={clearHandler}
+          >
+            Clear
+          </button>
+        </div>
+      )
+    }
+
+    class StopWatchContainer extends React.Component {
+      state = {
+        running: false,
+        lapse: 0
+      }
+
+      startTimer = () => {
+        const timer = setInterval(() => {
+          this.setState({lapse: this.lapse + 0.1})
+        }, 100)
+      }
+      
+      handleRunClick = () => {
+        this.setState({running: !this.state.running,})
+        this.timerHandler()
+      }
+
+      handleRunClear = () => {
+        this.setState({
+          running: false,
+          lapse: 0
+        })
+      }
+
+      render() {
+        const { running, lapse } = this.state
+        return (
+          <StopWatch
+            running={running}
+            lapse={lapse}
+            startHandler={this.handleRunClick}
+            clearHandler={this.handleRunClear}
+          />
+        )
+      }
+    }
+    
+    const App = () => (
+      <StopWatchContainer />
+    )
+    
+    const rootElement = document.getElementById('root')
+    const renderApp = () => {
+      ReactDOM.render(<App />, rootElement)
+    }
+
+    renderApp()
+
+  </script>
+</body>
+</html>
