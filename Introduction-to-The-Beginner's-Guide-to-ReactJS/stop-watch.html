@@ -42,7 +42,6 @@
           <button
             style={buttonStyles}
             onClick={clearHandler}
-            disabled={running}
           >
             Clear
           </button>
@@ -58,7 +57,9 @@
 
       startTimer = () => {
         this.timer = setInterval(() => {
-          this.setState({lapse: Number(+this.state.lapse + 0.1).toFixed(1)})
+          this.setState({lapse: Number(+this.state.lapse + 0.1).toFixed(1)}, () => {
+            console.log(this.state.lapse)
+          })
         }, 100)
       }
 
@@ -67,18 +68,26 @@
       }
       
       handleRunClick = () => {
-        this.state.running
-          ? this.stopTimer()
-          : this.startTimer()
-
-        this.setState({running: !this.state.running,})
+        this.setState({
+          running: !this.state.running
+        }, () => {
+          this.state.running
+            ? this.startTimer()
+            : this.stopTimer()
+        })
       }
 
       handleRunClear = () => {
         this.setState({
           running: false,
           lapse: 0
+        }, () => {
+          this.stopTimer()
         })
+      }
+
+      componentWillUnmount() {
+        this.stopTimer()
       }
 
       render() {
@@ -94,9 +103,31 @@
       }
     }
     
-    const App = () => (
-      <StopWatchContainer />
-    )
+    class App extends React.Component {
+      state = {
+        showStopWatch: true
+      }
+      
+      render() {
+        const { showStopWatch } = this.state
+        return (
+          <div>
+            <label>
+              Show Stop Watch{' '}
+              <input
+                type="checkbox"
+                checked={showStopWatch}
+                onChange={() => {
+                  this.setState({showStopWatch: !showStopWatch})
+                }}
+              />
+              <hr />
+              {showStopWatch ? <StopWatchContainer /> : null}
+            </label>
+          </div>
+        )
+      }
+    }
     
     const rootElement = document.getElementById('root')
     const renderApp = () => {
