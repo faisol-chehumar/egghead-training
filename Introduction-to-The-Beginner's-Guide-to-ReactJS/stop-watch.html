@@ -42,6 +42,7 @@
           <button
             style={buttonStyles}
             onClick={clearHandler}
+            disabled={running}
           >
             Clear
           </button>
@@ -52,18 +53,25 @@
     class StopWatchContainer extends React.Component {
       state = {
         running: false,
-        lapse: 0
+        lapse: 0.0
       }
 
       startTimer = () => {
-        const timer = setInterval(() => {
-          this.setState({lapse: this.lapse + 0.1})
+        this.timer = setInterval(() => {
+          this.setState({lapse: Number(+this.state.lapse + 0.1).toFixed(1)})
         }, 100)
+      }
+
+      stopTimer = () => {
+        clearInterval(this.timer)
       }
       
       handleRunClick = () => {
+        this.state.running
+          ? this.stopTimer()
+          : this.startTimer()
+
         this.setState({running: !this.state.running,})
-        this.timerHandler()
       }
 
       handleRunClear = () => {
