@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Beginner's Guide to React</title>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- <script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@16.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+  <script type="text/babel">
+    const App = () => (
+      <BasicForm />
+    )
+
+    class BasicForm extends React.Component {
+      handleSubmit = e => {
+        e.preventDefault()
+        console.log({target: event.target})
+        console.log(event.target[0].value)
+        console.log(event.target.elements.username.value)
+        console.log(this.basicForm.value)
+      }
+
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Name:
+              <input
+                type="text"
+                name="username"
+                ref={node => this.basicForm = node}
+              />
+            </label>
+            <button type="submit">Submit</button>
+          </form>
+        )
+      }
+    }
+
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    )
+
+  </script>
+</body>
+</html>
