@@ -57,7 +57,13 @@
 
       startTimer = () => {
         this.timer = setInterval(() => {
+<<<<<<< HEAD
           this.setState({lapse: +(this.state.lapse + 0.1).toFixed(1)})
+=======
+          this.setState({lapse: Number(+this.state.lapse + 0.1).toFixed(1)}, () => {
+            console.log(this.state.lapse)
+          })
+>>>>>>> 84af358c6700a2658fa8196976cc4b0a90947f8d
         }, 100)
       }
 
@@ -66,17 +72,33 @@
       }
       
       handleRunClick = () => {
+<<<<<<< HEAD
         this.state.running
           ? this.stopTimer()
           : this.startTimer()
         this.setState({running: !this.state.running})
+=======
+        this.setState({
+          running: !this.state.running
+        }, () => {
+          this.state.running
+            ? this.startTimer()
+            : this.stopTimer()
+        })
+>>>>>>> 84af358c6700a2658fa8196976cc4b0a90947f8d
       }
 
       handleRunClear = () => {
         this.setState({
           running: false,
           lapse: 0
+        }, () => {
+          this.stopTimer()
         })
+      }
+
+      componentWillUnmount() {
+        this.stopTimer()
       }
 
       render() {
@@ -92,9 +114,31 @@
       }
     }
     
-    const App = () => (
-      <StopWatchContainer />
-    )
+    class App extends React.Component {
+      state = {
+        showStopWatch: true
+      }
+      
+      render() {
+        const { showStopWatch } = this.state
+        return (
+          <div>
+            <label>
+              Show Stop Watch{' '}
+              <input
+                type="checkbox"
+                checked={showStopWatch}
+                onChange={() => {
+                  this.setState({showStopWatch: !showStopWatch})
+                }}
+              />
+              <hr />
+              {showStopWatch ? <StopWatchContainer /> : null}
+            </label>
+          </div>
+        )
+      }
+    }
     
     const rootElement = document.getElementById('root')
     const renderApp = () => {

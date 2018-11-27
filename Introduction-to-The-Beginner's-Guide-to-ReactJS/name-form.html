@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Beginner's Guide to React</title>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- <script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@16.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+  <script type="text/babel">
+    class NameForm extends React.Component {
+      state = {error: this.props.getErrorMessage('')}
+
+      handleSubmit = e => {
+        e.preventDefault()
+        const value = this.myInput.value
+        const error = this.props.getErrorMessage(value)
+
+        error 
+          ? alert(`error: ${error}`)
+          : alert(`success: ${value}`)
+      }
+
+      handleChange = e => {
+        const value = this.myInput.value
+        const error = this.props.getErrorMessage(value)
+
+        this.setState({error})
+      }
+
+      render() {
+        const {error} = this.state
+        return (
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                Name:
+                <input
+                  ref={node => this.myInput = node}
+                  name="username"
+                  type="text"
+                  onChange={this.handleChange}
+                  style={{marginLeft: 10}}
+                />
+              </label>
+              {error
+                ? (
+                  <p style={{color: 'red'}}>
+                    {error}
+                  </p>
+                ) : null}
+              <button
+                disabled={Boolean(error)}
+                type="submit"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        )
+      }
+    }
+
+    const App = () => (
+      <NameForm
+        getErrorMessage={value => 
+          value.length < 3 
+            ?  `Value must be at least 3 characters, but is only ${value.length}`
+            : !value.includes('s')
+            ? `Value does not include "s" but if should!`
+            : null
+        }
+      />
+    )
+
+
+
+
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    )
+
+  </script>
+</body>
+</html>
